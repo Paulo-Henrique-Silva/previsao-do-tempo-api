@@ -4,7 +4,7 @@ namespace PrevisaoDoTempoAPI.Controllers
 {
     [Controller]
     [Route("/api")]
-    public class PrevisoesController : ControllerBase
+    public class PrevisoesConsultasController : ControllerBase
     {
         [HttpGet]
         public IActionResult Index()
