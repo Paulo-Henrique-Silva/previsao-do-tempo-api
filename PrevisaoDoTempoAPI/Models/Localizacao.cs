@@ -1,29 +1,46 @@
-﻿namespace PrevisaoDoTempoAPI.Models
+﻿using System.Xml.Serialization;
+
+namespace PrevisaoDoTempoAPI.Models
 {
     /// <summary>
     /// Encapsula os dados da API ViaCEP.
     /// </summary>
+    [XmlRoot("xmlcep")]
     public class Localizacao
     {
-        public string Cep { get; set; }
+        [XmlElement("cep")]
+        public string? Cep { get; set; }
 
-        public string Logradouro { get; set; }
+        [XmlElement("logradouro")]
+        public string? Logradouro { get; set; }
 
-        public string Complemento { get; set; }
+        [XmlElement("complemento")]
+        public string? Complemento { get; set; }
 
-        public string Bairro { get; set; }
+        [XmlElement("bairro")]
+        public string? Bairro { get; set; }
 
-        public string Localidade { get; set; }
+        [XmlElement("localidade")]
+        public string? Localidade { get; set; }
 
-        public string Uf { get; set; }
+        [XmlElement("uf")]
+        public string? Uf { get; set; }
 
-        public string Ibge { get; set; }
+        [XmlElement("ibge")]
+        public string? Ibge { get; set; }
 
-        public string Gia { get; set; }
+        [XmlElement("gia")]
+        public string? Gia { get; set; }
 
-        public string Ddd { get; set; }
+        [XmlElement("ddd")]
+        public string? Ddd { get; set; }
 
-        public string Siafi { get; set; }
+        [XmlElement("siafi")]
+        public string? Siafi { get; set; }
+
+        public Localizacao()
+        {
+        }
 
         public Localizacao(string cep, string logradouro, string complemento, string bairro, 
             string localidade, string uf, string ibge, string gia, string ddd, string siafi)

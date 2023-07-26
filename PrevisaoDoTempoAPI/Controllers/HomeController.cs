@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PrevisaoDoTempoAPI.Repositories;
 
 namespace PrevisaoDoTempoAPI.Controllers
 {
@@ -9,7 +10,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok("Hello World!");
+            return Ok("Hello, World!");
         }
     }
 }

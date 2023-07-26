@@ -4,6 +4,6 @@ namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface IViaCEPRepository
     {
-        Task<Localizacao> ObterLocalizacaoPorCep(string cep);
+        Task<Localizacao?> ObterLocalizacaoPorCep(string cep);
     }
 }
