@@ -6,6 +6,6 @@ namespace PrevisaoDoTempoAPI.Interfaces
     {
         Task<CidadePrevisao?> ObterPrevisoesPorCodigoCidade(string codigoCidade);
 
-        Task<uint> ObterCidadeIdPorNomeEUF(string nome, string uf);
+        Task<uint> ObterCodigoCidadePorNomeEUF(string nome, string uf);
     }
 }

@@ -10,7 +10,9 @@ namespace PrevisaoDoTempoAPI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok("Hello, World!");
+            var cptec = new CPTECRepository();
+            uint id = cptec.ObterCodigoCidadePorNomeEUF("Sao paulo", "SP").Result;
+            return Ok(id);
         }
     }
 }

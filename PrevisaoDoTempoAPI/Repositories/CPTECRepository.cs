@@ -1,14 +1,33 @@
 ﻿using PrevisaoDoTempoAPI.Interfaces;
 using PrevisaoDoTempoAPI.Models;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PrevisaoDoTempoAPI.Repositories
 {
     public class CPTECRepository : ICPTECRepository
     {
-        public Task<uint> ObterCidadeIdPorNomeEUF(string nome, string uf)
+        public async Task<uint> ObterCodigoCidadePorNomeEUF(string nome, string uf)
         {
-            throw new NotImplementedException();
+            //TODO: Na classe de serviço, garantir que o nome da cidade não tenha acentos.
+            //TODO: Terminar implementação do método e corrigir erro de leitura.
+            string rota = IConstantes.URL_CPTEC_API + "listaCidades?city=" + nome;
+            using var httpClient = new HttpClient();
+
+            HttpResponseMessage httpResponse = await httpClient.GetAsync(rota);
+
+            string xml = await httpResponse.Content.ReadAsStringAsync();
+
+            var xmlSerializer = new XmlSerializer(typeof(GrupoCidades));
+            using var textReader = new StringReader(xml);
+            var grupoCidades = xmlSerializer.Deserialize(textReader) as GrupoCidades;
+
+            if (grupoCidades != null)
+            {
+
+            }
+
+            return 0;
         }
 
         public async Task<CidadePrevisao?> ObterPrevisoesPorCodigoCidade(string codigoCidade)
@@ -33,6 +52,19 @@ namespace PrevisaoDoTempoAPI.Repositories
             catch { }
 
             return null;
+        }
+
+        [XmlRoot("cidades")]
+        private class GrupoCidades
+        {
+            [XmlElement("cidade")]
+            public List<Cidade>? Cidades { get; set; }
+        }
+
+        private class Cidade
+        {
+            [XmlElement("id")]
+            public uint Id { get; set; }
         }
     }
 }

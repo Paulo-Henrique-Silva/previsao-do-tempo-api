@@ -3,24 +3,6 @@
 namespace PrevisaoDoTempoAPI.Models
 {
     /// <summary>
-    /// Classe usada para facilitar a leitura do arquivo XML. Encapsula todos os dados da API CPTEC/INPE.
-    /// </summary>
-    [XmlRoot("cidade")]
-    public class CidadePrevisao
-    {
-        [XmlElement("atualizacao")]
-        public DateTime Atualizacao { get; set; }
-
-        [XmlElement("previsao")]
-        public List<PrevisaoDia>? PrevisoesDias { get; set; }
-
-        public CidadePrevisao()
-        {
-            
-        }
-    }
-
-    /// <summary>
     /// Encapsula os dados relativos à previsão do tempo da API CPTEC/INPE.
     /// </summary>
     public class PrevisaoDia
