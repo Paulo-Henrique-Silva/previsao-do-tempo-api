@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrevisaoDoTempoAPI", "PrevisaoDoTempoAPI\PrevisaoDoTempoAPI.csproj", "{A7CE7A2E-DB06-4DF4-8260-0A88A9F95BBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrevisaoDoTempoAPI", "PrevisaoDoTempoAPI\PrevisaoDoTempoAPI.csproj", "{A7CE7A2E-DB06-4DF4-8260-0A88A9F95BBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrevisaoDoTempoAPI.Tests", "PrevisaoDoTempoAPI.Tests\PrevisaoDoTempoAPI.Tests.csproj", "{B27C00FC-7DD2-4C53-BB0B-D9BA01EFBAD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A7CE7A2E-DB06-4DF4-8260-0A88A9F95BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7CE7A2E-DB06-4DF4-8260-0A88A9F95BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7CE7A2E-DB06-4DF4-8260-0A88A9F95BBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B27C00FC-7DD2-4C53-BB0B-D9BA01EFBAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B27C00FC-7DD2-4C53-BB0B-D9BA01EFBAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B27C00FC-7DD2-4C53-BB0B-D9BA01EFBAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B27C00FC-7DD2-4C53-BB0B-D9BA01EFBAD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
