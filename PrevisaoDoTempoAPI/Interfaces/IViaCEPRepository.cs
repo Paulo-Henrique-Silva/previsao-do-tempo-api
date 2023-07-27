@@ -1,9 +1,9 @@
-﻿using PrevisaoDoTempoAPI.Models;
+﻿using PrevisaoDoTempoAPI.DTOs;
 
 namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface IViaCEPRepository
     {
-        Task<Localizacao?> ObterLocalizacaoPorCep(string cep);
+        Task<LocalizacaoDTO?> ObterLocalizacaoPorCep(string cep);
     }
 }

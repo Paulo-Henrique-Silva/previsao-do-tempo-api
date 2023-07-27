@@ -1,6 +1,4 @@
-﻿using PrevisaoDoTempoAPI.Models;
-
-namespace PrevisaoDoTempoAPI.DTOs
+﻿namespace PrevisaoDoTempoAPI.DTOs
 {
     /// <summary>
     /// Objeto que combina as respostas da API ViaCEP e da API CPTEC/INPE.
@@ -9,12 +7,12 @@ namespace PrevisaoDoTempoAPI.DTOs
     {
         public DateOnly Atualizacao { get; set; }
 
-        public Localizacao Localizacao { get; set; }
+        public LocalizacaoDTO Localizacao { get; set; }
 
-        public List<PrevisaoDia> PrevisoesDias { get; set; }
+        public List<PrevisaoDiaDTO> PrevisoesDias { get; set; }
 
-        public PrevisaoTempoDTO(DateOnly atualizacao, Localizacao localizacao, 
-            List<PrevisaoDia> previsoesDias)
+        public PrevisaoTempoDTO(DateOnly atualizacao, LocalizacaoDTO localizacao, 
+            List<PrevisaoDiaDTO> previsoesDias)
         {
             Atualizacao = atualizacao;
             Localizacao = localizacao;

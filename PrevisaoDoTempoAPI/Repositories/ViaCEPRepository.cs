@@ -1,5 +1,5 @@
-﻿using PrevisaoDoTempoAPI.Interfaces;
-using PrevisaoDoTempoAPI.Models;
+﻿using PrevisaoDoTempoAPI.DTOs;
+using PrevisaoDoTempoAPI.Interfaces;
 using System.Net.Http;
 using System.Xml.Serialization;
 
@@ -12,7 +12,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// </summary>
         /// <param name="cep"></param>
         /// <returns>Retorna o objeto de localização contendo os dados, caso o CEP seja válido. Senão retorna null.</returns>
-        public async Task<Localizacao?> ObterLocalizacaoPorCep(string cep)
+        public async Task<LocalizacaoDTO?> ObterLocalizacaoPorCep(string cep)
         {
             string rota = IConstantes.URL_VIA_CEP_API + cep + "/xml";
             using var httpClient = new HttpClient();
@@ -23,9 +23,9 @@ namespace PrevisaoDoTempoAPI.Repositories
             {
                 string xml = await httpResponse.Content.ReadAsStringAsync();
 
-                var xmlSerializer = new XmlSerializer(typeof(Localizacao));
+                var xmlSerializer = new XmlSerializer(typeof(LocalizacaoDTO));
                 using var textReader = new StringReader(xml);
-                var localizacao = xmlSerializer.Deserialize(textReader) as Localizacao;
+                var localizacao = xmlSerializer.Deserialize(textReader) as LocalizacaoDTO;
 
                 return localizacao;
             }

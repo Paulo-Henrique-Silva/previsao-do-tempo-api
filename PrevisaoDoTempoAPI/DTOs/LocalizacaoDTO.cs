@@ -1,12 +1,12 @@
 ﻿using System.Xml.Serialization;
 
-namespace PrevisaoDoTempoAPI.Models
+namespace PrevisaoDoTempoAPI.DTOs
 {
     /// <summary>
     /// Encapsula os dados da API ViaCEP.
     /// </summary>
     [XmlRoot("xmlcep")]
-    public class Localizacao
+    public class LocalizacaoDTO
     {
         [XmlElement("cep")]
         public string? Cep { get; set; }
@@ -38,11 +38,11 @@ namespace PrevisaoDoTempoAPI.Models
         [XmlElement("siafi")]
         public string? Siafi { get; set; }
 
-        public Localizacao()
+        public LocalizacaoDTO()
         {
         }
 
-        public Localizacao(string cep, string logradouro, string complemento, string bairro, 
+        public LocalizacaoDTO(string cep, string logradouro, string complemento, string bairro,
             string localidade, string uf, string ibge, string gia, string ddd, string siafi)
         {
             Cep = cep;

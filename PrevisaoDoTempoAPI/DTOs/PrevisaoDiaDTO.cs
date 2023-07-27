@@ -1,11 +1,11 @@
 ﻿using System.Xml.Serialization;
 
-namespace PrevisaoDoTempoAPI.Models
+namespace PrevisaoDoTempoAPI.DTOs
 {
     /// <summary>
     /// Encapsula os dados relativos à previsão do tempo da API CPTEC/INPE.
     /// </summary>
-    public class PrevisaoDia
+    public class PrevisaoDiaDTO
     {
         [XmlElement("dia")]
         public DateTime Dia { get; set; }
@@ -22,11 +22,11 @@ namespace PrevisaoDoTempoAPI.Models
         [XmlElement("iuv")]
         public string? Iuv { get; set; }
 
-        public PrevisaoDia()
+        public PrevisaoDiaDTO()
         {
         }
 
-        public PrevisaoDia(DateTime dia, string tempo, string maxima, string minima, string iuv)
+        public PrevisaoDiaDTO(DateTime dia, string tempo, string maxima, string minima, string iuv)
         {
             Dia = dia;
             Tempo = tempo;

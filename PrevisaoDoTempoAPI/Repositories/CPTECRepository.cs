@@ -1,5 +1,5 @@
-﻿using PrevisaoDoTempoAPI.Interfaces;
-using PrevisaoDoTempoAPI.Models;
+﻿using PrevisaoDoTempoAPI.DTOs;
+using PrevisaoDoTempoAPI.Interfaces;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -23,9 +23,9 @@ namespace PrevisaoDoTempoAPI.Repositories
 
             string xml = await httpResponse.Content.ReadAsStringAsync();
 
-            var xmlSerializer = new XmlSerializer(typeof(GrupoCidades));
+            var xmlSerializer = new XmlSerializer(typeof(GrupoCidadesDTO));
             using var textReader = new StringReader(xml);
-            GrupoCidades? grupoCidades = xmlSerializer.Deserialize(textReader) as GrupoCidades;
+            GrupoCidadesDTO? grupoCidades = xmlSerializer.Deserialize(textReader) as GrupoCidadesDTO;
 
             if (grupoCidades != null && grupoCidades.Cidades != null 
                 && grupoCidades.Cidades.Count != 0)
@@ -45,7 +45,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// </summary>
         /// <param name="codigoCidade"></param>
         /// <returns>Retorna um de CidadePrevisao contendo a lista de previsões.</returns>
-        public async Task<CidadePrevisao?> ObterPrevisoesPorCodigoCidade(uint codigoCidade)
+        public async Task<CidadePrevisaoDTO?> ObterPrevisoesPorCodigoCidade(uint codigoCidade)
         {
             string rota = IConstantes.URL_CPTEC_API + "cidade/" + codigoCidade + "/previsao.xml";
             using var httpClient = new HttpClient();
@@ -58,9 +58,9 @@ namespace PrevisaoDoTempoAPI.Repositories
             //um try é usado para obter exceções relativas a erros de leitura do arquivo
             try
             {
-                var xmlSerializer = new XmlSerializer(typeof(CidadePrevisao));
+                var xmlSerializer = new XmlSerializer(typeof(CidadePrevisaoDTO));
                 using var textReader = new StringReader(xml);
-                var cidadePrevisao = xmlSerializer.Deserialize(textReader) as CidadePrevisao;
+                var cidadePrevisao = xmlSerializer.Deserialize(textReader) as CidadePrevisaoDTO;
 
                 return cidadePrevisao;
             }
@@ -69,22 +69,22 @@ namespace PrevisaoDoTempoAPI.Repositories
             return null;
         }
 
-        #region Classes auxiliares
+        #region Classes DTOs auxiliares
 
         /// <summary>
         /// Classe usada, somente, para ler possíveis cidades na busca pelo código.
         /// </summary>
         [XmlRoot("cidades")]
-        public class GrupoCidades
+        public class GrupoCidadesDTO
         {
             [XmlElement("cidade")]
-            public List<Cidade>? Cidades { get; set; }
+            public List<CidadeDTO>? Cidades { get; set; }
         }
 
         /// <summary>
         /// Encapsula dados das cidades da API CPTEC.
         /// </summary>
-        public class Cidade
+        public class CidadeDTO
         {
             [XmlElement("id")]
             public uint Codigo { get; set; }

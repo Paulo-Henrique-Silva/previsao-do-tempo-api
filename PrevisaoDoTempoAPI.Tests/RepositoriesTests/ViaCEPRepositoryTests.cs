@@ -1,4 +1,4 @@
-using PrevisaoDoTempoAPI.Models;
+using PrevisaoDoTempoAPI.DTOs;
 using PrevisaoDoTempoAPI.Repositories;
 
 namespace PrevisaoDoTempoAPI.Tests.RepositoriesTests
@@ -10,7 +10,7 @@ namespace PrevisaoDoTempoAPI.Tests.RepositoriesTests
         {
             string cep = "01101-000"; //CEP da estação da Luz, em São Paulo.
             ViaCEPRepository repository = new ViaCEPRepository();
-            Localizacao localizacao = new Localizacao()
+            LocalizacaoDTO localizacao = new LocalizacaoDTO()
             {
                 Cep = cep,
                 Localidade = "São Paulo",
