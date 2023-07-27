@@ -27,6 +27,11 @@ namespace PrevisaoDoTempoAPI.Repositories
             return await dataContext.Usuarios.AnyAsync(u => u.Login.Equals(login));
         }
 
+        public async Task<Usuario?> ObterPorLogin(string login)
+        {
+            return await dataContext.Usuarios.FindAsync(login);
+        }
+
         /// <summary>
         /// Retorna valor booleano para verificação da senha. 
         /// </summary>

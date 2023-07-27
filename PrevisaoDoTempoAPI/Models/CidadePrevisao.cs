@@ -3,7 +3,7 @@
 namespace PrevisaoDoTempoAPI.Models
 {
     /// <summary>
-    /// Classe usada para facilitar a leitura do arquivo XML. Encapsula todos os dados da API CPTEC/INPE.
+    /// Classe usada para facilitar a leitura do arquivo XML da previsão da Cidade. Encapsula todos os dados da API CPTEC/INPE.
     /// </summary>
     [XmlRoot("cidade")]
     public class CidadePrevisao

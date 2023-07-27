@@ -1,4 +1,5 @@
-﻿using PrevisaoDoTempoAPI.Models;
+﻿using Microsoft.AspNetCore.Components.Web;
+using PrevisaoDoTempoAPI.Models;
 
 namespace PrevisaoDoTempoAPI.Interfaces
 {
@@ -9,5 +10,7 @@ namespace PrevisaoDoTempoAPI.Interfaces
         Task<List<Chave>> ObterChavesPorUsuarioId(uint usuarioId);
 
         Task<Chave> Adicionar(Chave chave);
+
+        Task<bool> ExistePorTexto(string chaveTexto);
     }
 }

@@ -22,6 +22,11 @@ namespace PrevisaoDoTempoAPI.Repositories
             return chave;
         }
 
+        public async Task<bool> ExistePorTexto(string chaveTexto)
+        {
+            return await dataContext.Chaves.AnyAsync(c => c.Texto.Equals(chaveTexto));
+        }
+
         public async Task<List<Chave>> ObterChavesPorUsuarioId(uint usuarioId)
         {
             return await dataContext.Chaves.Where(c => c.UsuarioId == usuarioId).ToListAsync();

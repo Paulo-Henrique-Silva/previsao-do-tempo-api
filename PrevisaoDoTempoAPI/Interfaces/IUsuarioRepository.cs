@@ -9,5 +9,7 @@ namespace PrevisaoDoTempoAPI.Interfaces
         Task<bool> SenhaCorretaPorLogin(string login, string senha);
 
         Task<Usuario> Adicionar(Usuario usuario);
+
+        Task<Usuario?> ObterPorLogin(string login);
     }
 }
