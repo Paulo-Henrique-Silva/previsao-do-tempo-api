@@ -45,7 +45,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// </summary>
         /// <param name="codigoCidade"></param>
         /// <returns>Retorna um de CidadePrevisao contendo a lista de previsões.</returns>
-        public async Task<CidadePrevisao?> ObterPrevisoesPorCodigoCidade(string codigoCidade)
+        public async Task<CidadePrevisao?> ObterPrevisoesPorCodigoCidade(uint codigoCidade)
         {
             string rota = IConstantes.URL_CPTEC_API + "cidade/" + codigoCidade + "/previsao.xml";
             using var httpClient = new HttpClient();
