@@ -20,17 +20,36 @@ namespace PrevisaoDoTempoAPI.Services
 
         public Usuario Cadastrar(UsuarioDTO usuarioDTO)
         {
-            if (ExistePorLogin(usuarioDTO.Login))
+            Usuario usuario = ConverterDTO(usuarioDTO);
+
+            ValidarUsuario(usuario);
+
+            if (ExistePorLogin(usuario.Login))
             {
-                throw new LoginInvalidoException($"O login {usuarioDTO.Login} já existe.");
+                throw new ConteudoInvalidoException($"O login {usuario.Login} já existe.");
             }
 
-            return null;
+            return usuario;
         }
 
-        public Chave CriarChave(UsuarioDTO usuario)
+        public Chave CriarChave(UsuarioDTO usuarioDTO)
         {
-            throw new NotImplementedException();
+            if (!ExistePorLogin(usuarioDTO.Login))
+            {
+                throw new LoginInvalidoException($"O login {usuarioDTO.Login} não existe.");
+            }
+
+            if (!SenhaCorretaPorLogin(usuarioDTO.Login, usuarioDTO.Senha))
+            {
+                throw new LoginInvalidoException($"Senha incorreta.");
+            }
+
+            Usuario? usuario = ObterPorLogin(usuarioDTO.Login);
+            DateTime dataAtual = DateTime.Now;
+            var chave = new Chave(usuario.Id, GerarTextoChave(), dataAtual, dataAtual.AddDays(3));
+
+            chaveRepository.Adicionar(chave);
+            return chave;   
         }
 
         public bool ExistePorLogin(string login)
@@ -38,17 +57,55 @@ namespace PrevisaoDoTempoAPI.Services
             return usuarioRepository.ExistePorLogin(login).Result;
         }
 
-        public List<Chave> ObterChavesDoUsuario(UsuarioDTO usuario, bool somenteValidas)
+        public List<Chave> ObterChavesDoUsuario(UsuarioDTO usuarioDTO, bool somenteValidas)
         {
-            throw new NotImplementedException();
+            if (!ExistePorLogin(usuarioDTO.Login))
+            {
+                throw new LoginInvalidoException($"O login {usuarioDTO.Login} não existe.");
+            }
+
+            if (!SenhaCorretaPorLogin(usuarioDTO.Login, usuarioDTO.Senha))
+            {
+                throw new LoginInvalidoException($"Senha incorreta.");
+            }
+
+            uint usuarioId = ObterPorLogin(usuarioDTO.Login).Id;
+            List<Chave> chaves = chaveRepository.ObterChavesPorUsuarioId(usuarioId).Result;
+
+            if (somenteValidas)
+            {
+                chaves = chaves.Where(c => c.ChaveValida).ToList();
+            }
+
+            return chaves;
         }
 
-        private static void ConverterDTO(UsuarioDTO usuarioDTO)
+        private string GerarTextoChave()
+        {
+            const string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string texto = string.Empty;
+            Random random = new();
+
+            do
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    texto += caracteres[random.Next(caracteres.Length)];
+                }
+            } 
+            while (!chaveRepository.ExistePorTexto(texto).Result);
+
+            return texto;
+        }
+
+        private static Usuario ConverterDTO(UsuarioDTO usuarioDTO)
         {
             if (usuarioDTO == null)
             {
-
+                throw new ConteudoInvalidoException("Não foi possível converter os dados enviados.");
             }
+
+            return new Usuario(usuarioDTO.Login, usuarioDTO.Senha, DateTime.Now);
         }
 
         private static void ValidarUsuario(Usuario usuario)
@@ -64,8 +121,20 @@ namespace PrevisaoDoTempoAPI.Services
                 //obtém a primeira mensagem de erro ao validar.
                 var mensagem = validacaoResultados.Select(vr => vr.ErrorMessage).FirstOrDefault();
 
-                throw new LoginInvalidoException(mensagem);
+                throw new ConteudoInvalidoException(mensagem);
             }
+        }
+
+        public bool SenhaCorretaPorLogin(string login, string senha)
+        {
+            return usuarioRepository.SenhaCorretaPorLogin(login, senha).Result;
+        }
+
+        public Usuario ObterPorLogin(string login)
+        {
+            Usuario? usuario = usuarioRepository.ObterPorLogin(login).Result;
+
+            return usuario ?? throw new ConteudoInvalidoException($"O login {login} não existe.");
         }
     }
 }
