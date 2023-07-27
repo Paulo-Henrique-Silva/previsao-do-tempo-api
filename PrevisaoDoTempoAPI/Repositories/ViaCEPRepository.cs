@@ -7,6 +7,11 @@ namespace PrevisaoDoTempoAPI.Repositories
 {
     public class ViaCEPRepository : IViaCEPRepository
     {
+        /// <summary>
+        /// Obtém os dados disponíveis na API VIACEP para o cep passado no parâmetro.
+        /// </summary>
+        /// <param name="cep"></param>
+        /// <returns>Retorna o objeto de localização contendo os dados, caso o CEP seja válido. Senão retorna null.</returns>
         public async Task<Localizacao?> ObterLocalizacaoPorCep(string cep)
         {
             string rota = IConstantes.URL_VIA_CEP_API + cep + "/xml";
