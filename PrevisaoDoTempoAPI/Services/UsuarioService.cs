@@ -29,7 +29,7 @@ namespace PrevisaoDoTempoAPI.Services
                 throw new ConteudoInvalidoException($"O login {usuario.Login} já existe.");
             }
 
-            return usuario;
+            return usuarioRepository.AdicionarAsync(usuario).Result;
         }
 
         public Chave CriarChave(UsuarioDTO usuarioDTO)
