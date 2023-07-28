@@ -7,8 +7,6 @@ namespace PrevisaoDoTempoAPI.Interfaces
     {
         bool ChaveValida(string chaveTexto);
 
-        bool ChaveExpirada(string chaveTexto);
-
         PrevisaoTempoDTO ObterPrevisaoTempoPorCep(string cep, string chaveTexto);
 
         List<Consulta> ObterConsultas(string usuario, string cep, DateTime dataMinima,

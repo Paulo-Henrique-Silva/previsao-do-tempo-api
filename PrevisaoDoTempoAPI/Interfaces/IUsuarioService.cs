@@ -15,6 +15,6 @@ namespace PrevisaoDoTempoAPI.Interfaces
 
         Chave CriarChave(UsuarioDTO usuario);
 
-        List<Chave> ObterChavesDoUsuario(UsuarioDTO usuario, bool somenteValidas);
+        List<Chave> ObterChavesDoUsuario(UsuarioDTO usuario, bool somenteNaoExpiradas);
     }
 }

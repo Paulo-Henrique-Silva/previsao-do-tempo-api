@@ -6,9 +6,21 @@ namespace PrevisaoDoTempoAPI.Services
 {
     public class PrevisoesConsultasService : IPrevisoesConsultasService
     {
-        public bool ChaveExpirada(string chaveTexto)
+        private readonly IViaCEPRepository viaCEPRepository;
+
+        private readonly ICPTECRepository cptecRepository;
+
+        private readonly IChaveRepository chaveRepository;
+
+        private readonly IConsultaRepository consultaRepository;
+
+        public PrevisoesConsultasService(IViaCEPRepository viaCEPRepository, ICPTECRepository cptecRepository, 
+            IChaveRepository chaveRepository, IConsultaRepository consultaRepository)
         {
-            throw new NotImplementedException();
+            this.viaCEPRepository = viaCEPRepository;
+            this.cptecRepository = cptecRepository;
+            this.chaveRepository = chaveRepository;
+            this.consultaRepository = consultaRepository;
         }
 
         public bool ChaveValida(string chaveTexto)

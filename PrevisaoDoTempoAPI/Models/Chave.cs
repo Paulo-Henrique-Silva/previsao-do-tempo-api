@@ -28,7 +28,7 @@ namespace PrevisaoDoTempoAPI.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "A data de expiração é obrigatória.")]
         public DateTime DataExpiracao { get; set; }
 
-        public bool ChaveValida => DataExpiracao >= DateTime.UtcNow;
+        public bool ChaveNaoExpirada => DataExpiracao >= DateTime.Now;
 
         //propriedade de navegação.
         public Usuario? Usuario { get; set; }

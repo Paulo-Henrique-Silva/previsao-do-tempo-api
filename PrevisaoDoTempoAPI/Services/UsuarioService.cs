@@ -57,7 +57,7 @@ namespace PrevisaoDoTempoAPI.Services
             return usuarioRepository.ExistePorLogin(login).Result;
         }
 
-        public List<Chave> ObterChavesDoUsuario(UsuarioDTO usuarioDTO, bool somenteValidas)
+        public List<Chave> ObterChavesDoUsuario(UsuarioDTO usuarioDTO, bool somenteNaoExpiradas)
         {
             if (!ExistePorLogin(usuarioDTO.Login))
             {
@@ -72,9 +72,9 @@ namespace PrevisaoDoTempoAPI.Services
             uint usuarioId = ObterPorLogin(usuarioDTO.Login).Id;
             List<Chave> chaves = chaveRepository.ObterChavesPorUsuarioId(usuarioId).Result;
 
-            if (somenteValidas)
+            if (somenteNaoExpiradas)
             {
-                chaves = chaves.Where(c => c.ChaveValida).ToList();
+                chaves = chaves.Where(c => c.ChaveNaoExpirada).ToList();
             }
 
             return chaves;
