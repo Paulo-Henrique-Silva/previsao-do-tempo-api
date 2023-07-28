@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PrevisaoDoTempoAPI.DTOs;
+using PrevisaoDoTempoAPI.Exceptions;
+using PrevisaoDoTempoAPI.Models;
 using PrevisaoDoTempoAPI.Services;
+using System.Net;
 
 namespace PrevisaoDoTempoAPI.Controllers
 {
@@ -14,10 +18,25 @@ namespace PrevisaoDoTempoAPI.Controllers
             this.usuarioService = usuarioService;
         }
 
-        [HttpGet]
-        public IActionResult Cadastrar()
+        [HttpPost]
+        public IActionResult Cadastrar([FromBody] UsuarioDTO usuarioDTO)
         {
-            return Ok("Hello, user!");
+            try
+            {
+                Usuario usuario = usuarioService.Cadastrar(usuarioDTO);
+                var resposta = new RespostaSucessoAPIDTO<Usuario>(201, $"Usuário de ID: {usuario.Id} criado com sucesso!", 
+                    usuario);
+
+                return Created("", resposta);
+            }
+            catch (ConteudoInvalidoException ex)
+            {
+                return BadRequest(new RespostaErroAPIDTO(400, ex.Message));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, RespostaErroAPIDTO.RespostaErro500);
+            }
         }
     }
 }

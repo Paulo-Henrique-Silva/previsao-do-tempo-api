@@ -1,5 +1,8 @@
 ﻿namespace PrevisaoDoTempoAPI.DTOs
 {
+    /// <summary>
+    /// Retorna as respostas bem-sucedidas da API.
+    /// </summary>
     public class RespostaSucessoAPIDTO
     {
         public bool Success => true;
@@ -15,6 +18,10 @@
         }
     }
 
+    /// <summary>
+    /// Retorna as respostas bem-sucedidas da API, com dados adicionais.
+    /// </summary>
+    /// <typeparam name="TData">Tipo de dado a ser retornado.</typeparam>
     public class RespostaSucessoAPIDTO<TData>
     {
         public bool Success => true;
