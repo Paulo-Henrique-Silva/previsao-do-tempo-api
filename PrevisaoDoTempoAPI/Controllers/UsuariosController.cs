@@ -11,6 +11,7 @@ namespace PrevisaoDoTempoAPI.Controllers
     [Route("api/[controller]")]
     public class UsuariosController : ControllerBase
     {
+        //TODO: Reajustar classes de serviço para que retornem as DTOs.
         private readonly IUsuarioService usuarioService;
 
         public UsuariosController(IUsuarioService usuarioService)
@@ -44,7 +45,6 @@ namespace PrevisaoDoTempoAPI.Controllers
         {
             try
             {
-                //TODO: Criar DTOs de resposta ao Models.
                 Chave chave = usuarioService.CriarChave(usuarioDTO);
                 var resposta = new RespostaSucessoAPIDTO<Chave>(201, $"Chave de ID: {chave.Id} criado com sucesso!",
                     chave);
