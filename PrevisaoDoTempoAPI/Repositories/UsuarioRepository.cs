@@ -29,7 +29,7 @@ namespace PrevisaoDoTempoAPI.Repositories
 
         public async Task<Usuario?> ObterPorLoginAsync(string login)
         {
-            return await dataContext.Usuarios.FindAsync(login);
+            return await dataContext.Usuarios.FirstAsync(u => u.Login.Equals(login));
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// <returns>Retorna true se a senha estiver correta para aquele login, e false caso a senha esteja incorreta ou o login não exista.</returns>
         public async Task<bool> SenhaCorretaPorLoginAsync(string login, string senha)
         {
-            Usuario? usuario = await dataContext.Usuarios.FindAsync(login);
+            Usuario? usuario = await dataContext.Usuarios.FirstAsync(u => u.Login.Equals(login));
 
             if (usuario != null)
             {

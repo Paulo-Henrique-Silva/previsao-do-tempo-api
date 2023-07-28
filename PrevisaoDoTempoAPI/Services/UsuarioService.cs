@@ -34,6 +34,11 @@ namespace PrevisaoDoTempoAPI.Services
 
         public Chave CriarChave(UsuarioDTO usuarioDTO)
         {
+            if (usuarioDTO == null)
+            {
+                throw new ConteudoInvalidoException("Não foi possível converter os dados enviados.");
+            }
+
             if (!ExistePorLogin(usuarioDTO.Login))
             {
                 throw new LoginInvalidoException($"O login {usuarioDTO.Login} não existe.");
@@ -48,8 +53,7 @@ namespace PrevisaoDoTempoAPI.Services
             DateTime dataAtual = DateTime.Now;
             var chave = new Chave(usuario.Id, GerarTextoChave(), dataAtual, dataAtual.AddDays(3));
 
-            chaveRepository.AdicionarAsync(chave);
-            return chave;   
+            return chaveRepository.AdicionarAsync(chave).Result;  
         }
 
         public bool ExistePorLogin(string login)
@@ -59,6 +63,11 @@ namespace PrevisaoDoTempoAPI.Services
 
         public List<Chave> ObterChavesDoUsuario(UsuarioDTO usuarioDTO, bool somenteNaoExpiradas)
         {
+            if (usuarioDTO == null)
+            {
+                throw new ConteudoInvalidoException("Não foi possível converter os dados enviados.");
+            }
+
             if (!ExistePorLogin(usuarioDTO.Login))
             {
                 throw new LoginInvalidoException($"O login {usuarioDTO.Login} não existe.");
@@ -93,7 +102,7 @@ namespace PrevisaoDoTempoAPI.Services
                     texto += caracteres[random.Next(caracteres.Length)];
                 }
             } 
-            while (!chaveRepository.ExistePorTextoAsync(texto).Result);
+            while (chaveRepository.ExistePorTextoAsync(texto).Result);
 
             return texto;
         }

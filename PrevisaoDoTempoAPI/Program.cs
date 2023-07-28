@@ -17,7 +17,7 @@ builder.Services.AddDbContext<DataContext>(obj => obj.UseMySql(builder.Configura
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IChaveRepository, ChaveRepository>();
-builder.Services.AddScoped<IConsultaRepository, IConsultaRepository>();
+builder.Services.AddScoped<IConsultaRepository, ConsultaRepository>();
 builder.Services.AddScoped<IViaCEPRepository, ViaCEPRepository>();
 builder.Services.AddScoped<ICPTECRepository, CPTECRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();

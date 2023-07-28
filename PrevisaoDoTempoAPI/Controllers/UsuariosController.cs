@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PrevisaoDoTempoAPI.DTOs;
 using PrevisaoDoTempoAPI.Exceptions;
+using PrevisaoDoTempoAPI.Interfaces;
 using PrevisaoDoTempoAPI.Models;
-using PrevisaoDoTempoAPI.Services;
 using System.Net;
 
 namespace PrevisaoDoTempoAPI.Controllers
@@ -11,9 +11,9 @@ namespace PrevisaoDoTempoAPI.Controllers
     [Route("api/[controller]")]
     public class UsuariosController : ControllerBase
     {
-        private readonly UsuarioService usuarioService;
+        private readonly IUsuarioService usuarioService;
 
-        public UsuariosController(UsuarioService usuarioService)
+        public UsuariosController(IUsuarioService usuarioService)
         {
             this.usuarioService = usuarioService;
         }
@@ -28,6 +28,32 @@ namespace PrevisaoDoTempoAPI.Controllers
                     usuario);
 
                 return Created("", resposta);
+            }
+            catch (ConteudoInvalidoException ex)
+            {
+                return BadRequest(new RespostaErroAPIDTO(400, ex.Message));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, RespostaErroAPIDTO.RespostaErro500);
+            }
+        }
+
+        [HttpPost("criarchave")]
+        public IActionResult CriarChave([FromBody] UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                //TODO: Criar DTOs de resposta ao Models.
+                Chave chave = usuarioService.CriarChave(usuarioDTO);
+                var resposta = new RespostaSucessoAPIDTO<Chave>(201, $"Chave de ID: {chave.Id} criado com sucesso!",
+                    chave);
+
+                return Created("", resposta);
+            }
+            catch (LoginInvalidoException ex)
+            {
+                return Unauthorized(new RespostaErroAPIDTO(401, ex.Message));
             }
             catch (ConteudoInvalidoException ex)
             {
