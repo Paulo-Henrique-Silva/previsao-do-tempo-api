@@ -32,6 +32,11 @@ namespace PrevisaoDoTempoAPI.Repositories
             return await dataContext.Chaves.Where(c => c.UsuarioId == usuarioId).ToListAsync();
         }
 
+        public async Task<Chave?> ObterPorTexto(string chaveTexto)
+        {
+            return await dataContext.Chaves.FindAsync(chaveTexto);
+        }
+
         public async Task<List<Chave>> ObterTudo()
         {
             return await dataContext.Chaves.ToListAsync();

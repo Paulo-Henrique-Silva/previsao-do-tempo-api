@@ -1,4 +1,5 @@
 ﻿using PrevisaoDoTempoAPI.DTOs;
+using PrevisaoDoTempoAPI.Exceptions;
 using PrevisaoDoTempoAPI.Interfaces;
 using PrevisaoDoTempoAPI.Models;
 
@@ -23,19 +24,82 @@ namespace PrevisaoDoTempoAPI.Services
             this.consultaRepository = consultaRepository;
         }
 
-        public bool ChaveValida(string chaveTexto)
+        public bool ChaveExpiradaPorTexto(string chaveTexto)
         {
-            throw new NotImplementedException();
+            Chave? chave = chaveRepository.ObterPorTexto(chaveTexto).Result;
+
+            return chave == null ? throw new ConteudoInvalidoException("Não existe uma chave com este texto.") : !chave.ChaveNaoExpirada;
         }
 
-        public List<Consulta> ObterConsultas(string usuario, string cep, DateTime dataMinima, DateTime dataMaxima)
+        public bool ChaveValidaPorTexto(string chaveTexto)
         {
-            throw new NotImplementedException();
+            return chaveRepository.ExistePorTexto(chaveTexto).Result;
+        }
+
+        public List<Consulta> ObterConsultas(string? usuario, string? cep, DateTime dataMinima, DateTime dataMaxima)
+        {
+            List<Consulta> consultas = consultaRepository.ObterTudo().Result;
+
+            if (usuario != null)
+            {
+                consultas = consultas.Where(c => c.Usuario != null && c.Usuario.Equals(usuario)).ToList();
+            }
+
+            if (cep != null)
+            {
+                consultas = consultas.Where(c => c.Cep != null && c.Cep.Equals(cep)).ToList();
+            }
+
+            consultas = consultas.Where(c => c.DataConsulta >= dataMinima && c.DataConsulta <= dataMaxima).ToList();
+
+            return consultas;
         }
 
         public PrevisaoTempoDTO ObterPrevisaoTempoPorCep(string cep, string chaveTexto)
         {
-            throw new NotImplementedException();
+            if (ChaveValidaPorTexto(chaveTexto))
+            {
+                throw new ChaveInvalidaException($"A chave {chaveTexto} não existe.");
+            }
+
+            if (ChaveExpiradaPorTexto(chaveTexto))
+            {
+                throw new ChaveInvalidaException($"A chave {chaveTexto} não existe.");
+            }
+
+            LocalizacaoDTO? localizacaoDTO = viaCEPRepository.ObterLocalizacaoPorCep(cep).Result;
+
+            if (localizacaoDTO == null || localizacaoDTO.Localidade == null || localizacaoDTO.Uf == null)
+            {
+                throw new ParametroInvalidoException($"O cep {cep} é inválido.");
+            }
+
+            uint codigoCidade = cptecRepository.ObterCodigoCidadePorNomeEUF(localizacaoDTO.Localidade,
+                localizacaoDTO.Uf).Result;
+
+            if (codigoCidade == 0)
+            {
+                throw new ServicoIndisponivelException("Não foi possível localizar o código da cidade.");
+            }
+
+            CidadePrevisaoDTO? cidadePrevisaoDTO = cptecRepository.ObterPrevisoesPorCodigoCidade(codigoCidade).Result;
+
+            if (cidadePrevisaoDTO == null || cidadePrevisaoDTO.PrevisoesDias == null)
+            {
+                throw new ServicoIndisponivelException("Não foi possível obter a previsão de tempo da cidade.");
+            }
+
+            var atualizacaoApenasDia = new DateOnly(cidadePrevisaoDTO.Atualizacao.Year,
+                cidadePrevisaoDTO.Atualizacao.Month, cidadePrevisaoDTO.Atualizacao.Day);
+
+            var previsaoTempoDTO = new PrevisaoTempoDTO
+            (
+                atualizacaoApenasDia,
+                localizacaoDTO,
+                cidadePrevisaoDTO.PrevisoesDias
+            );
+
+            return previsaoTempoDTO;
         }
     }
 }

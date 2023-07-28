@@ -5,11 +5,13 @@ namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface IPrevisoesConsultasService
     {
-        bool ChaveValida(string chaveTexto);
+        bool ChaveExpiradaPorTexto(string chaveTexto);
+
+        bool ChaveValidaPorTexto(string chaveTexto);
 
         PrevisaoTempoDTO ObterPrevisaoTempoPorCep(string cep, string chaveTexto);
 
-        List<Consulta> ObterConsultas(string usuario, string cep, DateTime dataMinima,
+        List<Consulta> ObterConsultas(string? usuario, string? cep, DateTime dataMinima,
             DateTime dataMaxima);
     }
 }

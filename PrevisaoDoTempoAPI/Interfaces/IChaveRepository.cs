@@ -7,6 +7,8 @@ namespace PrevisaoDoTempoAPI.Interfaces
     {
         Task<List<Chave>> ObterTudo();
 
+        Task<Chave?> ObterPorTexto(string chaveTexto);
+
         Task<List<Chave>> ObterChavesPorUsuarioId(uint usuarioId);
 
         Task<Chave> Adicionar(Chave chave);
