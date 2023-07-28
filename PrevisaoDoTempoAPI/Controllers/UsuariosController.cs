@@ -19,7 +19,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar([FromBody] UsuarioDTO usuarioDTO)
+        public IActionResult Cadastrar([FromBody] UsuarioLoginDTO usuarioDTO)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         }
 
         [HttpPost("criarchave")]
-        public IActionResult CriarChave([FromBody] UsuarioDTO usuarioDTO)
+        public IActionResult CriarChave([FromBody] UsuarioLoginDTO usuarioDTO)
         {
             try
             {

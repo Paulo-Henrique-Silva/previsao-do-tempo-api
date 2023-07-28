@@ -18,7 +18,7 @@ namespace PrevisaoDoTempoAPI.Services
             this.chaveRepository = chaveRepository;
         }
 
-        public Usuario Cadastrar(UsuarioDTO usuarioDTO)
+        public Usuario Cadastrar(UsuarioLoginDTO usuarioDTO)
         {
             Usuario usuario = ConverterDTO(usuarioDTO);
 
@@ -32,7 +32,7 @@ namespace PrevisaoDoTempoAPI.Services
             return usuarioRepository.AdicionarAsync(usuario).Result;
         }
 
-        public Chave CriarChave(UsuarioDTO usuarioDTO)
+        public Chave CriarChave(UsuarioLoginDTO usuarioDTO)
         {
             if (usuarioDTO == null)
             {
@@ -61,7 +61,7 @@ namespace PrevisaoDoTempoAPI.Services
             return usuarioRepository.ExistePorLoginAsync(login).Result;
         }
 
-        public List<Chave> ObterChavesDoUsuario(UsuarioDTO usuarioDTO, bool somenteNaoExpiradas)
+        public List<Chave> ObterChavesDoUsuario(UsuarioLoginDTO usuarioDTO, bool somenteNaoExpiradas)
         {
             if (usuarioDTO == null)
             {
@@ -107,7 +107,7 @@ namespace PrevisaoDoTempoAPI.Services
             return texto;
         }
 
-        private static Usuario ConverterDTO(UsuarioDTO usuarioDTO)
+        private static Usuario ConverterDTO(UsuarioLoginDTO usuarioDTO)
         {
             if (usuarioDTO == null)
             {

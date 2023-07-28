@@ -11,10 +11,10 @@ namespace PrevisaoDoTempoAPI.Interfaces
 
         bool SenhaCorretaPorLogin(string login, string senha);
 
-        Usuario Cadastrar(UsuarioDTO usuario);
+        Usuario Cadastrar(UsuarioLoginDTO usuario);
 
-        Chave CriarChave(UsuarioDTO usuario);
+        Chave CriarChave(UsuarioLoginDTO usuario);
 
-        List<Chave> ObterChavesDoUsuario(UsuarioDTO usuario, bool somenteNaoExpiradas);
+        List<Chave> ObterChavesDoUsuario(UsuarioLoginDTO usuario, bool somenteNaoExpiradas);
     }
 }
