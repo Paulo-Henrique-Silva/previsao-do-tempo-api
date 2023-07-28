@@ -18,7 +18,7 @@ namespace PrevisaoDoTempoAPI.Tests.RepositoriesTests
             uint codigoEsperado = 244;
             CPTECRepository repository = new CPTECRepository();
 
-            var codigoObtido = repository.ObterCodigoCidadePorNomeEUF(nome, uf).Result;
+            var codigoObtido = repository.ObterCodigoCidadePorNomeEUFAsync(nome, uf).Result;
 
             Assert.Equal(codigoEsperado, codigoObtido);
         }
@@ -31,7 +31,7 @@ namespace PrevisaoDoTempoAPI.Tests.RepositoriesTests
             uint codigoEsperado = 244;
             CPTECRepository repository = new CPTECRepository();
 
-            var codigoObtido = repository.ObterCodigoCidadePorNomeEUF(nome, uf).Result;
+            var codigoObtido = repository.ObterCodigoCidadePorNomeEUFAsync(nome, uf).Result;
 
             Assert.NotEqual(codigoEsperado, codigoObtido);
             Assert.Equal(0u, codigoObtido);

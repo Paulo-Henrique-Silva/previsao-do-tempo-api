@@ -13,7 +13,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// <param name="nome"></param>
         /// <param name="uf"></param>
         /// <returns>Retorna um valor inteiro positivo diferente de zero que representa o código da cidade caso consiga encontrar, senão retorna 0.</returns>
-        public async Task<uint> ObterCodigoCidadePorNomeEUF(string nome, string uf)
+        public async Task<uint> ObterCodigoCidadePorNomeEUFAsync(string nome, string uf)
         {
             //TODO: Na classe de serviço, garantir que o nome da cidade não tenha acentos.
             string rota = IConstantes.URL_CPTEC_API + "listaCidades?city=" + nome;
@@ -45,7 +45,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// </summary>
         /// <param name="codigoCidade"></param>
         /// <returns>Retorna um de CidadePrevisao contendo a lista de previsões.</returns>
-        public async Task<CidadePrevisaoDTO?> ObterPrevisoesPorCodigoCidade(uint codigoCidade)
+        public async Task<CidadePrevisaoDTO?> ObterPrevisoesPorCodigoCidadeAsync(uint codigoCidade)
         {
             string rota = IConstantes.URL_CPTEC_API + "cidade/" + codigoCidade + "/previsao.xml";
             using var httpClient = new HttpClient();

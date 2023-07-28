@@ -4,8 +4,8 @@ namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface IConsultaRepository
     {
-        Task<List<Consulta>> ObterTudo();
+        Task<List<Consulta>> ObterTudoAsync();
 
-        Task<Consulta> Adicionar(Consulta consulta);
+        Task<Consulta> AdicionarAsync(Consulta consulta);
     }
 }

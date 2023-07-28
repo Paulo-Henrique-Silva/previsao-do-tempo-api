@@ -26,19 +26,19 @@ namespace PrevisaoDoTempoAPI.Services
 
         public bool ChaveExpiradaPorTexto(string chaveTexto)
         {
-            Chave? chave = chaveRepository.ObterPorTexto(chaveTexto).Result;
+            Chave? chave = chaveRepository.ObterPorTextoAsync(chaveTexto).Result;
 
             return chave == null ? throw new ConteudoInvalidoException("Não existe uma chave com este texto.") : !chave.ChaveNaoExpirada;
         }
 
         public bool ChaveValidaPorTexto(string chaveTexto)
         {
-            return chaveRepository.ExistePorTexto(chaveTexto).Result;
+            return chaveRepository.ExistePorTextoAsync(chaveTexto).Result;
         }
 
         public List<Consulta> ObterConsultas(string? usuario, string? cep, DateTime dataMinima, DateTime dataMaxima)
         {
-            List<Consulta> consultas = consultaRepository.ObterTudo().Result;
+            List<Consulta> consultas = consultaRepository.ObterTudoAsync().Result;
 
             if (usuario != null)
             {
@@ -67,14 +67,14 @@ namespace PrevisaoDoTempoAPI.Services
                 throw new ChaveInvalidaException($"A chave {chaveTexto} não existe.");
             }
 
-            LocalizacaoDTO? localizacaoDTO = viaCEPRepository.ObterLocalizacaoPorCep(cep).Result;
+            LocalizacaoDTO? localizacaoDTO = viaCEPRepository.ObterLocalizacaoPorCepAsync(cep).Result;
 
             if (localizacaoDTO == null || localizacaoDTO.Localidade == null || localizacaoDTO.Uf == null)
             {
                 throw new ParametroInvalidoException($"O cep {cep} é inválido.");
             }
 
-            uint codigoCidade = cptecRepository.ObterCodigoCidadePorNomeEUF(localizacaoDTO.Localidade,
+            uint codigoCidade = cptecRepository.ObterCodigoCidadePorNomeEUFAsync(localizacaoDTO.Localidade,
                 localizacaoDTO.Uf).Result;
 
             if (codigoCidade == 0)
@@ -82,7 +82,7 @@ namespace PrevisaoDoTempoAPI.Services
                 throw new ServicoIndisponivelException("Não foi possível localizar o código da cidade.");
             }
 
-            CidadePrevisaoDTO? cidadePrevisaoDTO = cptecRepository.ObterPrevisoesPorCodigoCidade(codigoCidade).Result;
+            CidadePrevisaoDTO? cidadePrevisaoDTO = cptecRepository.ObterPrevisoesPorCodigoCidadeAsync(codigoCidade).Result;
 
             if (cidadePrevisaoDTO == null || cidadePrevisaoDTO.PrevisoesDias == null)
             {

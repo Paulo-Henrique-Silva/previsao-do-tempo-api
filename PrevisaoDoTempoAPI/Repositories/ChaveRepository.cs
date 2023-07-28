@@ -14,7 +14,7 @@ namespace PrevisaoDoTempoAPI.Repositories
             this.dataContext = dataContext;
         }
 
-        public async Task<Chave> Adicionar(Chave chave)
+        public async Task<Chave> AdicionarAsync(Chave chave)
         {
             dataContext.Chaves.Add(chave);
             await dataContext.SaveChangesAsync();
@@ -22,22 +22,22 @@ namespace PrevisaoDoTempoAPI.Repositories
             return chave;
         }
 
-        public async Task<bool> ExistePorTexto(string chaveTexto)
+        public async Task<bool> ExistePorTextoAsync(string chaveTexto)
         {
             return await dataContext.Chaves.AnyAsync(c => c.Texto.Equals(chaveTexto));
         }
 
-        public async Task<List<Chave>> ObterChavesPorUsuarioId(uint usuarioId)
+        public async Task<List<Chave>> ObterChavesPorUsuarioIdAsync(uint usuarioId)
         {
             return await dataContext.Chaves.Where(c => c.UsuarioId == usuarioId).ToListAsync();
         }
 
-        public async Task<Chave?> ObterPorTexto(string chaveTexto)
+        public async Task<Chave?> ObterPorTextoAsync(string chaveTexto)
         {
             return await dataContext.Chaves.FindAsync(chaveTexto);
         }
 
-        public async Task<List<Chave>> ObterTudo()
+        public async Task<List<Chave>> ObterTudoAsync()
         {
             return await dataContext.Chaves.ToListAsync();
         }

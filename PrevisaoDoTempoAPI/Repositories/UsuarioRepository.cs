@@ -14,7 +14,7 @@ namespace PrevisaoDoTempoAPI.Repositories
             this.dataContext = dataContext;
         }
 
-        public async Task<Usuario> Adicionar(Usuario usuario)
+        public async Task<Usuario> AdicionarAsync(Usuario usuario)
         {
             dataContext.Usuarios.Add(usuario);
             await dataContext.SaveChangesAsync();
@@ -22,12 +22,12 @@ namespace PrevisaoDoTempoAPI.Repositories
             return usuario;
         }
 
-        public async Task<bool> ExistePorLogin(string login)
+        public async Task<bool> ExistePorLoginAsync(string login)
         {
             return await dataContext.Usuarios.AnyAsync(u => u.Login.Equals(login));
         }
 
-        public async Task<Usuario?> ObterPorLogin(string login)
+        public async Task<Usuario?> ObterPorLoginAsync(string login)
         {
             return await dataContext.Usuarios.FindAsync(login);
         }
@@ -38,7 +38,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// <param name="login"></param>
         /// <param name="senha"></param>
         /// <returns>Retorna true se a senha estiver correta para aquele login, e false caso a senha esteja incorreta ou o login não exista.</returns>
-        public async Task<bool> SenhaCorretaPorLogin(string login, string senha)
+        public async Task<bool> SenhaCorretaPorLoginAsync(string login, string senha)
         {
             Usuario? usuario = await dataContext.Usuarios.FindAsync(login);
 

@@ -4,12 +4,12 @@ namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface IUsuarioRepository
     {
-        Task<bool> ExistePorLogin(string login);
+        Task<bool> ExistePorLoginAsync(string login);
 
-        Task<bool> SenhaCorretaPorLogin(string login, string senha);
+        Task<bool> SenhaCorretaPorLoginAsync(string login, string senha);
 
-        Task<Usuario> Adicionar(Usuario usuario);
+        Task<Usuario> AdicionarAsync(Usuario usuario);
 
-        Task<Usuario?> ObterPorLogin(string login);
+        Task<Usuario?> ObterPorLoginAsync(string login);
     }
 }

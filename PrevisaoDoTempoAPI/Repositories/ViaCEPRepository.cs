@@ -12,7 +12,7 @@ namespace PrevisaoDoTempoAPI.Repositories
         /// </summary>
         /// <param name="cep"></param>
         /// <returns>Retorna o objeto de localização contendo os dados, caso o CEP seja válido. Senão retorna null.</returns>
-        public async Task<LocalizacaoDTO?> ObterLocalizacaoPorCep(string cep)
+        public async Task<LocalizacaoDTO?> ObterLocalizacaoPorCepAsync(string cep)
         {
             string rota = IConstantes.URL_VIA_CEP_API + cep + "/xml";
             using var httpClient = new HttpClient();

@@ -5,14 +5,14 @@ namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface IChaveRepository
     {
-        Task<List<Chave>> ObterTudo();
+        Task<List<Chave>> ObterTudoAsync();
 
-        Task<Chave?> ObterPorTexto(string chaveTexto);
+        Task<Chave?> ObterPorTextoAsync(string chaveTexto);
 
-        Task<List<Chave>> ObterChavesPorUsuarioId(uint usuarioId);
+        Task<List<Chave>> ObterChavesPorUsuarioIdAsync(uint usuarioId);
 
-        Task<Chave> Adicionar(Chave chave);
+        Task<Chave> AdicionarAsync(Chave chave);
 
-        Task<bool> ExistePorTexto(string chaveTexto);
+        Task<bool> ExistePorTextoAsync(string chaveTexto);
     }
 }

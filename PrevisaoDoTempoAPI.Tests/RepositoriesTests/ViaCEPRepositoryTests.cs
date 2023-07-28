@@ -17,7 +17,7 @@ namespace PrevisaoDoTempoAPI.Tests.RepositoriesTests
                 Uf = "SP"
             };
 
-            var localizacaoResposta = repository.ObterLocalizacaoPorCep(cep).Result;
+            var localizacaoResposta = repository.ObterLocalizacaoPorCepAsync(cep).Result;
 
             Assert.NotNull(localizacaoResposta);
             Assert.Equal(localizacao.Cep, localizacaoResposta.Cep);
@@ -31,7 +31,7 @@ namespace PrevisaoDoTempoAPI.Tests.RepositoriesTests
             string cep = "01101-1345"; //CEP inválido.
             ViaCEPRepository repository = new ViaCEPRepository();
 
-            var localizacaoResposta = repository.ObterLocalizacaoPorCep(cep).Result;
+            var localizacaoResposta = repository.ObterLocalizacaoPorCepAsync(cep).Result;
 
             Assert.Null(localizacaoResposta);
         }

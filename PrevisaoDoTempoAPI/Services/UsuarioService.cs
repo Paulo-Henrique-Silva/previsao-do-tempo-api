@@ -48,13 +48,13 @@ namespace PrevisaoDoTempoAPI.Services
             DateTime dataAtual = DateTime.Now;
             var chave = new Chave(usuario.Id, GerarTextoChave(), dataAtual, dataAtual.AddDays(3));
 
-            chaveRepository.Adicionar(chave);
+            chaveRepository.AdicionarAsync(chave);
             return chave;   
         }
 
         public bool ExistePorLogin(string login)
         {
-            return usuarioRepository.ExistePorLogin(login).Result;
+            return usuarioRepository.ExistePorLoginAsync(login).Result;
         }
 
         public List<Chave> ObterChavesDoUsuario(UsuarioDTO usuarioDTO, bool somenteNaoExpiradas)
@@ -70,7 +70,7 @@ namespace PrevisaoDoTempoAPI.Services
             }
 
             uint usuarioId = ObterPorLogin(usuarioDTO.Login).Id;
-            List<Chave> chaves = chaveRepository.ObterChavesPorUsuarioId(usuarioId).Result;
+            List<Chave> chaves = chaveRepository.ObterChavesPorUsuarioIdAsync(usuarioId).Result;
 
             if (somenteNaoExpiradas)
             {
@@ -93,7 +93,7 @@ namespace PrevisaoDoTempoAPI.Services
                     texto += caracteres[random.Next(caracteres.Length)];
                 }
             } 
-            while (!chaveRepository.ExistePorTexto(texto).Result);
+            while (!chaveRepository.ExistePorTextoAsync(texto).Result);
 
             return texto;
         }
@@ -127,12 +127,12 @@ namespace PrevisaoDoTempoAPI.Services
 
         public bool SenhaCorretaPorLogin(string login, string senha)
         {
-            return usuarioRepository.SenhaCorretaPorLogin(login, senha).Result;
+            return usuarioRepository.SenhaCorretaPorLoginAsync(login, senha).Result;
         }
 
         public Usuario ObterPorLogin(string login)
         {
-            Usuario? usuario = usuarioRepository.ObterPorLogin(login).Result;
+            Usuario? usuario = usuarioRepository.ObterPorLoginAsync(login).Result;
 
             return usuario ?? throw new ConteudoInvalidoException($"O login {login} não existe.");
         }

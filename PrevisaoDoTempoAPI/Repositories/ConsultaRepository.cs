@@ -15,7 +15,7 @@ namespace PrevisaoDoTempoAPI.Repositories
             this.dataContext = dataContext;
         }
 
-        public async Task<Consulta> Adicionar(Consulta consulta)
+        public async Task<Consulta> AdicionarAsync(Consulta consulta)
         {
             dataContext.Consultas.Add(consulta);
             await dataContext.SaveChangesAsync();
@@ -23,7 +23,7 @@ namespace PrevisaoDoTempoAPI.Repositories
             return consulta;
         }
 
-        public async Task<List<Consulta>> ObterTudo()
+        public async Task<List<Consulta>> ObterTudoAsync()
         {
             return await dataContext.Consultas.ToListAsync();
         }

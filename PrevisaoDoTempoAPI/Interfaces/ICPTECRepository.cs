@@ -4,8 +4,8 @@ namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface ICPTECRepository
     {
-        Task<CidadePrevisaoDTO?> ObterPrevisoesPorCodigoCidade(uint codigoCidade);
+        Task<CidadePrevisaoDTO?> ObterPrevisoesPorCodigoCidadeAsync(uint codigoCidade);
 
-        Task<uint> ObterCodigoCidadePorNomeEUF(string nome, string uf);
+        Task<uint> ObterCodigoCidadePorNomeEUFAsync(string nome, string uf);
     }
 }
