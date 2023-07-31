@@ -5,16 +5,10 @@ namespace PrevisaoDoTempoAPI.Interfaces
 {
     public interface IUsuarioService
     {
-        Usuario ObterPorLogin(string login);
+        UsuarioRespostaDTO Cadastrar(UsuarioLoginDTO usuario);
 
-        bool ExistePorLogin(string login);
+        ChaveRespostaDTO CriarChave(UsuarioLoginDTO usuario);
 
-        bool SenhaCorretaPorLogin(string login, string senha);
-
-        Usuario Cadastrar(UsuarioLoginDTO usuario);
-
-        Chave CriarChave(UsuarioLoginDTO usuario);
-
-        List<Chave> ObterChavesDoUsuario(UsuarioLoginDTO usuario, bool somenteNaoExpiradas);
+        List<ChaveRespostaDTO> ObterChavesDoUsuario(UsuarioLoginDTO usuario, bool somenteNaoExpiradas);
     }
 }

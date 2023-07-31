@@ -18,7 +18,7 @@ namespace PrevisaoDoTempoAPI.Services
             this.chaveRepository = chaveRepository;
         }
 
-        public Usuario Cadastrar(UsuarioLoginDTO usuarioDTO)
+        public UsuarioRespostaDTO Cadastrar(UsuarioLoginDTO usuarioDTO)
         {
             Usuario usuario = ConverterDTO(usuarioDTO);
 
@@ -29,10 +29,11 @@ namespace PrevisaoDoTempoAPI.Services
                 throw new ConteudoInvalidoException($"O login {usuario.Login} já existe.");
             }
 
-            return usuarioRepository.AdicionarAsync(usuario).Result;
+            usuario = usuarioRepository.AdicionarAsync(usuario).Result;
+            return new UsuarioRespostaDTO(usuario.Id, usuario.Login, usuario.DataCadastro);
         }
 
-        public Chave CriarChave(UsuarioLoginDTO usuarioDTO)
+        public ChaveRespostaDTO CriarChave(UsuarioLoginDTO usuarioDTO)
         {
             if (usuarioDTO == null)
             {
@@ -51,17 +52,20 @@ namespace PrevisaoDoTempoAPI.Services
 
             Usuario? usuario = ObterPorLogin(usuarioDTO.Login);
             DateTime dataAtual = DateTime.Now;
-            var chave = new Chave(usuario.Id, GerarTextoChave(), dataAtual, dataAtual.AddDays(3));
 
-            return chaveRepository.AdicionarAsync(chave).Result;  
+            var chave = new Chave(usuario.Id, GerarTextoChave(), dataAtual, dataAtual.AddDays(3));
+            chave = chaveRepository.AdicionarAsync(chave).Result;
+
+            return new ChaveRespostaDTO(chave.Id, usuarioDTO.Login, chave.Texto, 
+                chave.DataCriacao, chave.DataExpiracao);
         }
 
-        public bool ExistePorLogin(string login)
+        private bool ExistePorLogin(string login)
         {
             return usuarioRepository.ExistePorLoginAsync(login).Result;
         }
 
-        public List<Chave> ObterChavesDoUsuario(UsuarioLoginDTO usuarioDTO, bool somenteNaoExpiradas)
+        public List<ChaveRespostaDTO> ObterChavesDoUsuario(UsuarioLoginDTO usuarioDTO, bool somenteNaoExpiradas)
         {
             if (usuarioDTO == null)
             {
@@ -86,7 +90,8 @@ namespace PrevisaoDoTempoAPI.Services
                 chaves = chaves.Where(c => c.ChaveNaoExpirada).ToList();
             }
 
-            return chaves;
+            return chaves.Select(c => new ChaveRespostaDTO(c.Id, usuarioDTO.Login, c.Texto,
+                c.DataCriacao, c.DataExpiracao)).ToList();
         }
 
         private string GerarTextoChave()
@@ -134,12 +139,12 @@ namespace PrevisaoDoTempoAPI.Services
             }
         }
 
-        public bool SenhaCorretaPorLogin(string login, string senha)
+        private bool SenhaCorretaPorLogin(string login, string senha)
         {
             return usuarioRepository.SenhaCorretaPorLoginAsync(login, senha).Result;
         }
 
-        public Usuario ObterPorLogin(string login)
+        private Usuario ObterPorLogin(string login)
         {
             Usuario? usuario = usuarioRepository.ObterPorLoginAsync(login).Result;
 

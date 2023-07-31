@@ -24,8 +24,8 @@ namespace PrevisaoDoTempoAPI.Controllers
         {
             try
             {
-                Usuario usuario = usuarioService.Cadastrar(usuarioDTO);
-                var resposta = new RespostaSucessoAPIDTO<Usuario>(201, $"Usuário de ID: {usuario.Id} criado com sucesso!", 
+                UsuarioRespostaDTO usuario = usuarioService.Cadastrar(usuarioDTO);
+                var resposta = new RespostaSucessoAPIDTO<UsuarioRespostaDTO>(201, $"Usuário de ID: {usuario.Id} criado com sucesso!", 
                     usuario);
 
                 return Created("", resposta);
@@ -45,8 +45,8 @@ namespace PrevisaoDoTempoAPI.Controllers
         {
             try
             {
-                Chave chave = usuarioService.CriarChave(usuarioDTO);
-                var resposta = new RespostaSucessoAPIDTO<Chave>(201, $"Chave de ID: {chave.Id} criado com sucesso!",
+                ChaveRespostaDTO chave = usuarioService.CriarChave(usuarioDTO);
+                var resposta = new RespostaSucessoAPIDTO<ChaveRespostaDTO>(201, $"Chave de ID: {chave.Id} criado com sucesso!",
                     chave);
 
                 return Created("", resposta);

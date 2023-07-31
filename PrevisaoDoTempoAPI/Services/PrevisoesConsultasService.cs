@@ -24,25 +24,25 @@ namespace PrevisaoDoTempoAPI.Services
             this.consultaRepository = consultaRepository;
         }
 
-        public bool ChaveExpiradaPorTexto(string chaveTexto)
+        private bool ChaveExpiradaPorTexto(string chaveTexto)
         {
             Chave? chave = chaveRepository.ObterPorTextoAsync(chaveTexto).Result;
 
             return chave == null ? throw new ConteudoInvalidoException("Não existe uma chave com este texto.") : !chave.ChaveNaoExpirada;
         }
 
-        public bool ChaveValidaPorTexto(string chaveTexto)
+        private bool ChaveValidaPorTexto(string chaveTexto)
         {
             return chaveRepository.ExistePorTextoAsync(chaveTexto).Result;
         }
 
-        public List<Consulta> ObterConsultas(string? usuario, string? cep, DateTime dataMinima, DateTime dataMaxima)
+        public List<ConsultaRespostaDTO> ObterConsultas(string? usuario, string? cep, DateTime dataMinima, DateTime dataMaxima)
         {
             List<Consulta> consultas = consultaRepository.ObterTudoAsync().Result;
 
             if (usuario != null)
             {
-                consultas = consultas.Where(c => c.Usuario != null && c.Usuario.Equals(usuario)).ToList();
+                consultas = consultas.Where(c => c.Usuario != null && c.Usuario.Login.Equals(usuario)).ToList();
             }
 
             if (cep != null)
@@ -52,11 +52,16 @@ namespace PrevisaoDoTempoAPI.Services
 
             consultas = consultas.Where(c => c.DataConsulta >= dataMinima && c.DataConsulta <= dataMaxima).ToList();
 
-            return consultas;
+            return consultas.Select(c => 
+            {
+                return c.Usuario != null ? new ConsultaRespostaDTO(c.Id, c.Usuario.Login, c.Cep, c.DataConsulta) : 
+                    new ConsultaRespostaDTO(c.Id, string.Empty, c.Cep, c.DataConsulta);
+            }).ToList();
         }
 
         public PrevisaoTempoDTO ObterPrevisaoTempoPorCep(string cep, string chaveTexto)
         {
+            //verifica chave.
             if (ChaveValidaPorTexto(chaveTexto))
             {
                 throw new ChaveInvalidaException($"A chave {chaveTexto} não existe.");
@@ -64,9 +69,10 @@ namespace PrevisaoDoTempoAPI.Services
 
             if (ChaveExpiradaPorTexto(chaveTexto))
             {
-                throw new ChaveInvalidaException($"A chave {chaveTexto} não existe.");
+                throw new ChaveInvalidaException($"A chave {chaveTexto} está expirada.");
             }
 
+            //busca localização.
             LocalizacaoDTO? localizacaoDTO = viaCEPRepository.ObterLocalizacaoPorCepAsync(cep).Result;
 
             if (localizacaoDTO == null || localizacaoDTO.Localidade == null || localizacaoDTO.Uf == null)
@@ -74,6 +80,7 @@ namespace PrevisaoDoTempoAPI.Services
                 throw new ParametroInvalidoException($"O cep {cep} é inválido.");
             }
 
+            //busca previsão do tempo.
             uint codigoCidade = cptecRepository.ObterCodigoCidadePorNomeEUFAsync(localizacaoDTO.Localidade,
                 localizacaoDTO.Uf).Result;
 
@@ -89,6 +96,14 @@ namespace PrevisaoDoTempoAPI.Services
                 throw new ServicoIndisponivelException("Não foi possível obter a previsão de tempo da cidade.");
             }
 
+            //adiciona consulta.
+            var chave = chaveRepository.ObterPorTextoAsync(chaveTexto).Result
+                ?? throw new Exception($"Não foi possível localizar a chave pertencente ao texto {chaveTexto}");
+
+            uint usuarioId = chave.UsuarioId;
+            consultaRepository.AdicionarAsync(new Consulta(usuarioId, cep, DateTime.Now));
+
+            //crie e retorna dados das buscas.
             var atualizacaoApenasDia = new DateOnly(cidadePrevisaoDTO.Atualizacao.Year,
                 cidadePrevisaoDTO.Atualizacao.Month, cidadePrevisaoDTO.Atualizacao.Day);
 
