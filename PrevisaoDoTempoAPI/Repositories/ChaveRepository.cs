@@ -34,7 +34,7 @@ namespace PrevisaoDoTempoAPI.Repositories
 
         public async Task<Chave?> ObterPorTextoAsync(string chaveTexto)
         {
-            return await dataContext.Chaves.FindAsync(chaveTexto);
+            return await dataContext.Chaves.FirstAsync(c => c.Texto.Equals(chaveTexto));
         }
 
         public async Task<List<Chave>> ObterTudoAsync()

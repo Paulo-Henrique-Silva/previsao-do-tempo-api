@@ -27,5 +27,10 @@ namespace PrevisaoDoTempoAPI.Repositories
         {
             return await dataContext.Consultas.ToListAsync();
         }
+
+        public async Task<List<Consulta>> ObterTudoComUsuariosAsync()
+        {
+            return await dataContext.Consultas.Include(c => c.Usuario).ToListAsync();
+        }
     }
 }

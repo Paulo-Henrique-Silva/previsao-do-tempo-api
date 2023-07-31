@@ -2,6 +2,8 @@
 using PrevisaoDoTempoAPI.Exceptions;
 using PrevisaoDoTempoAPI.Interfaces;
 using PrevisaoDoTempoAPI.Models;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PrevisaoDoTempoAPI.Services
 {
@@ -36,9 +38,9 @@ namespace PrevisaoDoTempoAPI.Services
             return chaveRepository.ExistePorTextoAsync(chaveTexto).Result;
         }
 
-        public List<ConsultaRespostaDTO> ObterConsultas(string? usuario, string? cep, DateTime dataMinima, DateTime dataMaxima)
+        public List<ConsultaRespostaDTO> ObterConsultas(string? usuario, string? cep, DateTime? dataMinima, DateTime? dataMaxima)
         {
-            List<Consulta> consultas = consultaRepository.ObterTudoAsync().Result;
+            List<Consulta> consultas = consultaRepository.ObterTudoComUsuariosAsync().Result;
 
             if (usuario != null)
             {
@@ -50,7 +52,15 @@ namespace PrevisaoDoTempoAPI.Services
                 consultas = consultas.Where(c => c.Cep != null && c.Cep.Equals(cep)).ToList();
             }
 
-            consultas = consultas.Where(c => c.DataConsulta >= dataMinima && c.DataConsulta <= dataMaxima).ToList();
+            if (dataMinima != null)
+            {
+                consultas = consultas.Where(c => c.DataConsulta >= dataMinima).ToList();
+            }
+
+            if (dataMaxima != null)
+            {
+                consultas = consultas.Where(c => c.DataConsulta <= dataMaxima).ToList();
+            }
 
             return consultas.Select(c => 
             {
@@ -62,7 +72,7 @@ namespace PrevisaoDoTempoAPI.Services
         public PrevisaoTempoDTO ObterPrevisaoTempoPorCep(string cep, string chaveTexto)
         {
             //verifica chave.
-            if (ChaveValidaPorTexto(chaveTexto))
+            if (!ChaveValidaPorTexto(chaveTexto))
             {
                 throw new ChaveInvalidaException($"A chave {chaveTexto} não existe.");
             }
@@ -81,7 +91,11 @@ namespace PrevisaoDoTempoAPI.Services
             }
 
             //busca previsão do tempo.
-            uint codigoCidade = cptecRepository.ObterCodigoCidadePorNomeEUFAsync(localizacaoDTO.Localidade,
+
+            //remove os acentos - A API do CPTEC exige que o nome não tenha acentos.
+            string localidadeSemAcentos = Regex.Replace(localizacaoDTO.Localidade.Normalize(NormalizationForm.FormD), @"[^a-zA-Z0-9\s]", "");
+
+            uint codigoCidade = cptecRepository.ObterCodigoCidadePorNomeEUFAsync(localidadeSemAcentos,
                 localizacaoDTO.Uf).Result;
 
             if (codigoCidade == 0)

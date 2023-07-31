@@ -7,7 +7,7 @@ namespace PrevisaoDoTempoAPI.Interfaces
     {
         PrevisaoTempoDTO ObterPrevisaoTempoPorCep(string cep, string chaveTexto);
 
-        List<ConsultaRespostaDTO> ObterConsultas(string? usuario, string? cep, DateTime dataMinima,
-            DateTime dataMaxima);
+        List<ConsultaRespostaDTO> ObterConsultas(string? usuario, string? cep, DateTime? dataMinima,
+            DateTime? dataMaxima);
     }
 }

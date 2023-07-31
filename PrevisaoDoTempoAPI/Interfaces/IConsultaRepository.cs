@@ -6,6 +6,8 @@ namespace PrevisaoDoTempoAPI.Interfaces
     {
         Task<List<Consulta>> ObterTudoAsync();
 
+        Task<List<Consulta>> ObterTudoComUsuariosAsync();
+
         Task<Consulta> AdicionarAsync(Consulta consulta);
     }
 }
