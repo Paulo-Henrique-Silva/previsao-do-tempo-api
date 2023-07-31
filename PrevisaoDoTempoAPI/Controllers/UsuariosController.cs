@@ -11,7 +11,6 @@ namespace PrevisaoDoTempoAPI.Controllers
     [Route("api/[controller]")]
     public class UsuariosController : ControllerBase
     {
-        //TODO: Reajustar classes de serviço para que retornem as DTOs.
         private readonly IUsuarioService usuarioService;
 
         public UsuariosController(IUsuarioService usuarioService)
@@ -50,6 +49,32 @@ namespace PrevisaoDoTempoAPI.Controllers
                     chave);
 
                 return Created("", resposta);
+            }
+            catch (LoginInvalidoException ex)
+            {
+                return Unauthorized(new RespostaErroAPIDTO(401, ex.Message));
+            }
+            catch (ConteudoInvalidoException ex)
+            {
+                return BadRequest(new RespostaErroAPIDTO(400, ex.Message));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, RespostaErroAPIDTO.RespostaErro500);
+            }
+        }
+
+        [HttpPost("chaves")]
+        public IActionResult ObterChaves([FromBody] UsuarioLoginDTO usuarioDTO, 
+            [FromQuery] bool somenteNaoExpiradas = false)
+        {
+            try
+            {
+                List<ChaveRespostaDTO> chaves = usuarioService.ObterChavesDoUsuario(usuarioDTO, somenteNaoExpiradas);
+                var resposta = new RespostaSucessoAPIDTO<List<ChaveRespostaDTO>>(200, $"Chaves obtidas com sucesso!",
+                    chaves);
+
+                return Ok(resposta);
             }
             catch (LoginInvalidoException ex)
             {
