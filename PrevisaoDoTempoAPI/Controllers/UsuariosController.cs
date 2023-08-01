@@ -19,7 +19,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar([FromBody] UsuarioLoginDTO usuarioDTO)
+        public ActionResult Cadastrar([FromBody] UsuarioLoginDTO usuarioDTO)
         {
             try
             {
@@ -40,12 +40,12 @@ namespace PrevisaoDoTempoAPI.Controllers
         }
 
         [HttpPost("criarchave")]
-        public IActionResult CriarChave([FromBody] UsuarioLoginDTO usuarioDTO)
+        public ActionResult CriarChave([FromBody] UsuarioLoginDTO usuarioDTO)
         {
             try
             {
                 ChaveRespostaDTO chave = usuarioService.CriarChave(usuarioDTO);
-                var resposta = new RespostaSucessoAPIDTO<ChaveRespostaDTO>(201, $"Chave de ID: {chave.Id} criado com sucesso!",
+                var resposta = new RespostaSucessoAPIDTO<ChaveRespostaDTO>(201, $"Chave de ID: {chave.Id} criada com sucesso!",
                     chave);
 
                 return Created("", resposta);
@@ -65,7 +65,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         }
 
         [HttpPost("chaves")]
-        public IActionResult ObterChaves([FromBody] UsuarioLoginDTO usuarioDTO, 
+        public ActionResult ObterChaves([FromBody] UsuarioLoginDTO usuarioDTO, 
             [FromQuery] bool somenteNaoExpiradas = false)
         {
             try

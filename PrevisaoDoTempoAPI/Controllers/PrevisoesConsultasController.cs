@@ -20,7 +20,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         }
 
         [HttpGet("previsoes/{chaveApi}/{cep}")]
-        public IActionResult ObterPrevisao([FromRoute] string chaveApi, [FromRoute] string cep)
+        public ActionResult ObterPrevisao([FromRoute] string chaveApi, [FromRoute] string cep)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         }
 
         [HttpGet("consultas")]
-        public IActionResult ObterConsultas
+        public ActionResult ObterConsultas
         (
             [FromQuery] string? usuario = null, [FromQuery] string? cep = null, 
             [FromQuery] DateTime? dataMinima = null, [FromQuery] DateTime? dataMaxima = null
