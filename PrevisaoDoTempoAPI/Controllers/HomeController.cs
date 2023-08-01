@@ -10,7 +10,7 @@ namespace PrevisaoDoTempoAPI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok("Hello World!");
+            return View("index");
         }
     }
 }

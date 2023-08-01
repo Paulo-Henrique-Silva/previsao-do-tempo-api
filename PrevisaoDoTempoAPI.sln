@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrevisaoDoTempoAPI", "PrevisaoDoTempoAPI\PrevisaoDoTempoAPI.csproj", "{A7CE7A2E-DB06-4DF4-8260-0A88A9F95BBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrevisaoDoTempoAPI.Tests", "PrevisaoDoTempoAPI.Tests\PrevisaoDoTempoAPI.Tests.csproj", "{B27C00FC-7DD2-4C53-BB0B-D9BA01EFBAD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrevisaoDoTempoAPI.Tests", "PrevisaoDoTempoAPI.Tests\PrevisaoDoTempoAPI.Tests.csproj", "{B27C00FC-7DD2-4C53-BB0B-D9BA01EFBAD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
