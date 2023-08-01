@@ -38,9 +38,9 @@ namespace PrevisaoDoTempoAPI.Controllers
             {
                 return BadRequest(new RespostaErroAPIDTO(400, ex.Message));
             }
-            catch (ServicoIndisponivelException ex)
+            catch (ServicoIndisponivelException)
             {
-                return StatusCode(503, new RespostaErroAPIDTO(503, "Serviço indisponível no momento."));
+                return StatusCode(503, new RespostaErroAPIDTO(503, "Serviço indisponível no momento para este CEP."));
             }
             catch (Exception)
             {
