@@ -11,8 +11,16 @@
             background-color: #0A2647;
         }
 
+        h4 {
+            color: #0A2647;
+        }
+
         .bg-header * {
             color: #EEEDED;
+        }
+
+        pre {
+            white-space: pre-line;
         }
     </style>
 </head>
@@ -22,60 +30,144 @@
         <div class="bg-header">
             <div class="container pt-5 pb-3">
                 <h1 class="h1 display-5 fw-bold">Previsão do Tempo</h1>
-                <p>Consulte a previsão do tempo dos próximos 4 dias a partir do CEP. Integração de duas APIs públicas e gratuitas. ViaCEP e CPTEC.</p>
+                <p>Consulte a previsão do tempo dos próximos 4 dias a partir do CEP!</p>
             </div>
         </div>
     </header>
 
-    <!--Seção 1-->
+    <!--Seção 1 - Projeto-->
     <section>
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12">
                     <div class="pt-3">
-                        <h2 class="display-6 fw-bold">Should I stay or should I go now?</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+                        <h4>Projeto</h4>
+                        <p>
+                            API feita em C# (.NET 6), utilizando banco de dados MySql (XAMPP) que integra
+                            duas outras APIs públicas e gratuitas.
+                        </p>
+                        <p>
+                            <a href="https://viacep.com.br/">ViaCEP - Localização por CEP</a>
+                        </p>
+                        <p>
+                            <a href="http://servicos.cptec.inpe.br/XML/">CPTEC/INPE - Previsão do tempo em XML</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!--Seção 2 - Acesso-->
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="pt-3">
+                        <h4>Acesso à API</h4>
+                        <p>
+                            Para utilizar a API, é preciso fazer uma conta com login e senha. Após isso,
+                            é necessário criar uma chave vinculada a sua conta. Um usuário pode ter um número
+                            indeterminado de chaves. Assim, é possível consultar a previsão a partir da
+                            URL: 
+                        </p>
+
+                        <p class="fw-semibold">
+                            https://localhost:7262/api/previsoes/{chave_api}/{cep}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!--Seção 2-->
+    <!--Seção 3 - Usuarios-->
     <section>
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12">
                     <div class="pt-3">
-                        <h2 class="display-6 fw-bold">Should I stay or should I go now?</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+                        <h4>Criando um usuário</h4>
+                        <p>
+                            Acesse o endereço /api/usuarios e envie login e senha via POST em JSON no corpo da requisição.
+                        </p>
+
+                        <p>Exemplo de POST:</p>
+                        <p class="fw-semibold">
+                            https://localhost:7262/api/usuarios/
+                        </p>
+
+                        <div class="card text-bg-dark mb-3 col-6">
+                            <pre class="card-body">
+{
+"login": "fulano",
+"senha": "123"
+}
+                            </pre>
+                        </div>
+
+                        <p>Resposta</p>
+                        <div class="card text-bg-dark mb-3 col-6">
+                            <pre class="card-body">
+{
+"success": true,
+"code": 201,
+"message": "Usuário de ID: 8 criado com sucesso!",
+"data": {
+        "id": 8,
+        "login": "fulano",
+        "dataCadastro": "2023-08-02T13:59:50.8595295-03:00"
+    }
+}
+                            </pre>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!--Seção 3-->
+    <!--Seção 3 - Chaves-->
     <section>
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12">
                     <div class="pt-3">
-                        <h2 class="display-6 fw-bold">If I go there will be trouble</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                        <h4>Obtendo chaves</h4>
+                        <p>
+                            Acesse o endereço /api/usuarios/criarchave e envie login e senha via POST em JSON no corpo da requisição.
+                            Como resposta, uma nova chave que expira dentro de 3 dias será enviada.
+                        </p>
 
-    <section>
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12">
-                    <div class="pt-3">
-                        <h2 class="display-6 fw-bold">And if I stay it will be double</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+                        @*<p>Exemplo de POST:</p>
+                        <p class="fw-semibold">
+                            https://localhost:7262/api/usuarios/criarchave
+                        </p>
+
+                        <div class="card text-bg-dark mb-3 col-6">
+                            <pre class="card-body">
+{
+"login": "fulano",
+"senha": "123"
+}
+                            </pre>
+                        </div>
+
+                        <p>Resposta</p>
+                        <div class="card text-bg-dark mb-3 col-6">
+                            <pre class="card-body">
+{
+"success": true,
+"code": 201,
+"message": "Usuário de ID: 8 criado com sucesso!",
+"data": {
+        "id": 8,
+        "login": "fulano",
+        "dataCadastro": "2023-08-02T13:59:50.8595295-03:00"
+    }
+}
+                            </pre>*@
+                        </div>
                     </div>
                 </div>
             </div>
