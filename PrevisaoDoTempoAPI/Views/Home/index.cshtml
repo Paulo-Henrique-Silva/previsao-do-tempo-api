@@ -43,7 +43,7 @@
                     <div class="pt-3">
                         <h4>Projeto</h4>
                         <p>
-                            API feita em C# (.NET 6), utilizando banco de dados MySql (XAMPP) que integra
+                            API feita em C# (.NET 6), utilizando banco de dados MySQL (XAMPP) que integra
                             duas outras APIs públicas e gratuitas.
                         </p>
                         <p>
@@ -106,7 +106,7 @@
                             </pre>
                         </div>
 
-                        <p>Resposta</p>
+                        <p>Resposta:</p>
                         <div class="card text-bg-dark mb-3 col-6">
                             <pre class="card-body">
 {
@@ -135,38 +135,227 @@
                     <div class="pt-3">
                         <h4>Obtendo chaves</h4>
                         <p>
-                            Acesse o endereço /api/usuarios/criarchave e envie login e senha via POST em JSON no corpo da requisição.
+                            Acesse o endereço /api/usuarios/{login}/chaves?senha={senha} via POST e preencha os campos da URL com as informações do usuário.
                             Como resposta, uma nova chave que expira dentro de 3 dias será enviada.
                         </p>
 
-                        @*<p>Exemplo de POST:</p>
+                        <p>Exemplo de POST:</p>
                         <p class="fw-semibold">
-                            https://localhost:7262/api/usuarios/criarchave
+                            https://localhost:7262/api/usuarios/{login}/chaves?senha={senha}
                         </p>
 
+                        </div>
+
+                        <p>Resposta:</p>
                         <div class="card text-bg-dark mb-3 col-6">
                             <pre class="card-body">
 {
-"login": "fulano",
-"senha": "123"
+    "success": true,
+    "code": 201,
+    "message": "Chave de ID: 15 criada com sucesso!",
+    "data": {
+        "id": 15,
+        "usuario": "fulano",
+        "texto": "M2OM2L",
+        "dataCriacao": "2023-08-02T15:27:14.4159772-03:00",
+        "dataExpiracao": "2023-08-05T15:27:14.4159772-03:00",
+        "valida": true
+    }
+}
+                            </pre>
+                    </div>
+
+                    <p>
+                        Caso queria, é possível obter a lista de chaves de um determinado usuário a partir da solicitação GET, por meio da mesma URL.
+                    </p>
+
+                    <p>Exemplo de GET:</p>
+                    <p class="fw-semibold">
+                        https://localhost:7262/api/usuarios/{login}/chaves?senha={senha}
+                    </p>
+
+                    <p>Resposta:</p>
+                    <div class="card text-bg-dark mb-3 col-6">
+                        <pre class="card-body">
+{
+    "success": true,
+    "code": 200,
+    "message": "Chaves obtidas com sucesso!",
+    "data": [
+        {
+            "id": 11,
+            "usuario": "fulano",
+            "texto": "146LF8",
+            "dataCriacao": "2023-08-01T10:10:31.279969",
+            "dataExpiracao": "2023-08-04T10:10:31.279969",
+            "valida": true
+        },
+        {
+            "id": 12,
+            "usuario": "fulano",
+            "texto": "4LKMU7",
+            "dataCriacao": "2023-08-01T10:10:36.635843",
+            "dataExpiracao": "2023-08-04T10:10:36.635843",
+            "valida": true
+        }...
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!--Seção 4 - Previsões-->
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="pt-3">
+                        <h4>Obtendo uma previsão</h4>
+                        <p>
+                            Acesse o endereço, via GET, utilizando uma chave válida e não expirada e com um CEP válido.
+                            Um CEP pode ter apenas números ou incluir "-" nos últimos dígitos, não há diferença.
+                        </p>
+
+                        <p>Exemplo de GET:</p>
+                        <p class="fw-semibold">
+                            https://localhost:7262/api/previsoes/{chave_api}/01438-060
+                        </p>
+
+                        <p>Resposta:</p>
+                        <div class="card text-bg-dark mb-3 col-6">
+                            <pre class="card-body">
+{
+    "success": true,
+    "code": 200,
+    "message": "Previsão para os próximos 4 dias obtida com sucesso!",
+    "data": {
+        "atualizacao": "2023-08-02",
+        "localizacao": {
+            "cep": "01438-060",
+            "logradouro": "Praça Nossa Senhora do Brasil",
+            "complemento": "",
+            "bairro": "Jardim América",
+            "localidade": "São Paulo",
+            "uf": "SP",
+            "ibge": "3550308",
+            "gia": "1004",
+            "ddd": "11",
+            "siafi": "7107"
+        },
+        "previsoesDias": [
+            {
+                "dia": "2023-08-03T00:00:00",
+                "tempo": "pn",
+                "maxima": "29",
+                "minima": "15",
+                "iuv": "6.0"
+            },
+            {
+                "dia": "2023-08-04T00:00:00",
+                "tempo": "pn",
+                "maxima": "26",
+                "minima": "14",
+                "iuv": "6.0"
+            },
+            {
+                "dia": "2023-08-05T00:00:00",
+                "tempo": "pn",
+                "maxima": "28",
+                "minima": "14",
+                "iuv": "6.0"
+            },
+            {
+                "dia": "2023-08-06T00:00:00",
+                "tempo": "pn",
+                "maxima": "26",
+                "minima": "14",
+                "iuv": "6.0"
+            }
+        ]
+    }
+}
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Seção 5 - Consultas-->
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="pt-3">
+                        <h4>Ver consultas</h4>
+                        <p>
+                            Acesse o endereço /api/consultas, via GET, para ver as consultas realizadas utilizando a API.
+                        </p>
+
+                        <p>Exemplo de GET:</p>
+                        <p class="fw-semibold">
+                            https://localhost:7262/api/consultas/
+                        </p>
+
+                        <p>Resposta:</p>
+                        <div class="card text-bg-dark mb-3 col-6">
+                            <pre class="card-body">
+{
+    "success": true,
+    "code": 200,
+    "message": "Consultas obtidas com sucesso!",
+    "data": [
+        ...
+        {
+            "id": 6,
+            "usuario": "ciclano",
+            "cep": "05432-01",
+            "dataConsulta": "2023-07-31T18:46:03.48367"
+        },
+        ...
+        {
+            "id": 14,
+            "usuario": "fulano",
+            "cep": "01438-06",
+            "dataConsulta": "2023-08-02T15:43:49.70003"
+        }
+        ...
+    ]
 }
                             </pre>
                         </div>
 
-                        <p>Resposta</p>
-                        <div class="card text-bg-dark mb-3 col-6">
-                            <pre class="card-body">
-{
-"success": true,
-"code": 201,
-"message": "Usuário de ID: 8 criado com sucesso!",
-"data": {
-        "id": 8,
-        "login": "fulano",
-        "dataCadastro": "2023-08-02T13:59:50.8595295-03:00"
-    }
-}
-                            </pre>*@
+                        <p>Queries complementares:</p>
+
+                        <div class="col-6">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Parâmetro</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>usuario</td>
+                                        <td>string</td>
+                                    </tr>
+                                    <tr>
+                                        <td>cep</td>
+                                        <td>string</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dataminima</td>
+                                        <td>DateTime</td>
+                                    </tr>
+                                    <tr>
+                                        <td>datamaxima</td>
+                                        <td>DateTime</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -39,12 +39,13 @@ namespace PrevisaoDoTempoAPI.Controllers
             }
         }
 
-        [HttpPost("criarchave")]
-        public ActionResult CriarChave([FromBody] UsuarioLoginDTO usuarioDTO)
+        [HttpPost("{login}/chaves")]
+        public ActionResult CriarChave([FromRoute] string login, 
+            [FromQuery] string senha)
         {
             try
             {
-                ChaveRespostaDTO chave = usuarioService.CriarChave(usuarioDTO);
+                ChaveRespostaDTO chave = usuarioService.CriarChave(new UsuarioLoginDTO(login, senha));
                 var resposta = new RespostaSucessoAPIDTO<ChaveRespostaDTO>(201, $"Chave de ID: {chave.Id} criada com sucesso!",
                     chave);
 
@@ -64,13 +65,14 @@ namespace PrevisaoDoTempoAPI.Controllers
             }
         }
 
-        [HttpPost("chaves")]
-        public ActionResult ObterChaves([FromBody] UsuarioLoginDTO usuarioDTO, 
+        [HttpGet("{login}/chaves")]
+        public ActionResult ObterChaves([FromRoute] string login, [FromQuery] string senha, 
             [FromQuery] bool somenteNaoExpiradas = false)
         {
             try
             {
-                List<ChaveRespostaDTO> chaves = usuarioService.ObterChavesDoUsuario(usuarioDTO, somenteNaoExpiradas);
+                List<ChaveRespostaDTO> chaves = usuarioService.ObterChavesDoUsuario(new UsuarioLoginDTO(login, senha), 
+                    somenteNaoExpiradas);
                 var resposta = new RespostaSucessoAPIDTO<List<ChaveRespostaDTO>>(200, $"Chaves obtidas com sucesso!",
                     chaves);
 
